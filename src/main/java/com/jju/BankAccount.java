@@ -1,27 +1,31 @@
 package com.jju;
-
 public class BankAccount {
     private String accountHolder;
-    protected double balance;
+    protected double balance; // Protected so subclasses can see it, but not the public
 
     public BankAccount(String accountHolder, double initialBalance) {
         this.accountHolder = accountHolder;
-        // Rule: If initial balance is negative, set to 0.0
-        this.balance = (initialBalance < 0) ? 0.0 : initialBalance;
+        // Student Task: Ensure balance cannot be negative during initialization
+         this.balance = (initialBalance < 0) ? 0.0 : initialBalance;
     }
 
     public void deposit(double amount) {
-        if (amount > 0) {
+        // Student Task: Implement deposit logic with validation
+          if (amount > 0) {
             balance += amount;
         }
     }
 
     public void withdraw(double amount) {
-        if (amount > 0 && balance >= amount) {
+        // Student Task: Implement withdrawal logic (prevent overdraft)
+           if (amount > 0 && balance >= amount) {
             balance -= amount;
         }
     }
 
+    public String getAccountHolder() {
+    return accountHolder;
+}
     public double getBalance() {
         return balance;
     }

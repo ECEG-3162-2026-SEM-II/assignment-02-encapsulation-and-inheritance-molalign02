@@ -1,36 +1,45 @@
 package com.jju;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
+
     public static void main(String[] args) {
-        System.out.println("--- Testing Savings Account ---");
-        // Initial balance 1000, Interest rate 0.05 (5%)
-        SavingsAccount savings = new SavingsAccount("Alice", 1000.0, 0.05);
-        System.out.println("Initial Balance: $" + savings.getBalance());
-        
-        savings.applyInterest(); // Should add $50.0
-        System.out.println("After Interest: $" + savings.getBalance());
-        
-        savings.deposit(200);
-        System.out.println("After $200 Deposit: $" + savings.getBalance());
+        System.out.println("--- 🏦 Bank System Simulation ---\n");
 
-        System.out.println("\n--- Testing Checking Account ---");
-        // Initial balance 100
-        CheckingAccount checking = new CheckingAccount("Bob", 100.0);
-        System.out.println("Initial Balance: $" + checking.getBalance());
-        
-        // Test withdrawal with fee
-        checking.withdraw(20.0); // Should deduct 20.0 + 1.50 = 21.50
-        System.out.println("After $20 Withdrawal (inc. $1.50 fee): $" + checking.getBalance());
-        
-        // Test overdraft protection (Insufficient funds for amount + fee)
-        System.out.println("Attempting to withdraw $80 (Total $81.50)...");
-        checking.withdraw(80.0); 
-        System.out.println("Balance after failed withdrawal: $" + checking.getBalance());
+        // 1. Create a Savings Account
+        // Starting with $200 and a 10% (0.10) interest rate
+        SavingsAccount mySavings = new SavingsAccount("Alice", 200.0, 0.10);
+        System.out.println("Initial Savings: $" + mySavings.getBalance());
+        mySavings.applyInterest();
+        System.out.println("Savings after interest: $" + mySavings.getBalance());
 
-        System.out.println("\n--- Testing Negative Initial Balance ---");
-        BankAccount badAccount = new BankAccount("Charlie", -500.0);
-        System.out.println("Charlie's Balance (should be 0.0): $" + badAccount.getBalance());
+        System.out.println("\n----------------------------------\n");
+
+        // 2. Create a Checking Account
+        // Starting with $100 (Withdrawal fee is usually internal to the class)
+        CheckingAccount myChecking = new CheckingAccount("Bob", 100.0);
+        System.out.println("Initial Checking: $" + myChecking.getBalance());
+        
+        // This should trigger a fee (e.g., $40 + $1.50 fee = $41.50 total deduction)
+        myChecking.withdraw(40.0);
+        System.out.println("Checking after $40 withdrawal: $" + myChecking.getBalance());
+
+        System.out.println("\n----------------------------------\n");
+
+        // 3. Demonstrating Polymorphism
+        // We can put different account types into one list
+        List<BankAccount> accounts = new ArrayList<>();
+        accounts.add(mySavings);
+        accounts.add(myChecking);
+        accounts.add(new BankAccount("Charlie", 500.0));
+
+        System.out.println("Processing all accounts in the system:");
+        for (BankAccount acc : accounts) {
+            System.out.println("Account Holder: " + acc.getAccountHolder() + 
+                               " | Balance: $" + acc.getBalance());
+        }
     }
+
 }
-
-
